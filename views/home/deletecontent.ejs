@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Delete page</title>
+</head>
+<body>
+	<div>
+		<h1>Delete Content!</h1> 		
+	</div>
+
+	<a href="/home/allcontent"> Back to List</a> |
+	<a href="/logout"> logout</a><br>
+
+	<form method="post">
+		<table>
+			<tr>
+				<td>Id</td>
+				<td><%=content.cid%></td>
+			</tr>
+			<tr>
+				<td>ContentName:</td>
+				<td><%=content.contentname%></td>
+			</tr>
+			<tr>
+				<td>ContentType :</td>
+				<td><%=content.contenttype%></td>
+			</tr>
+			<tr>
+				<td>ContentSize :</td>
+				<td><%=content.contentsize%></td>
+			</tr>
+			<tr>
+				<td><h3>Are you sure? </h3></td>
+				<td><input type="submit" name="submit" value="confirm"></td>
+			</tr>
+		</table>
+	</form>
+</body>
+</html>

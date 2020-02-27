@@ -2,23 +2,21 @@
 <html>
 <head>
 	<title>Home Page</title>
-	<link rel="stylesheet" type="text/css" href="admin/style.css">
+	<link rel="stylesheet" type="text/css" href="abc/style.css">
 </head>
 <body>
 	<div>
-			<h2>Welcome Admin Homepage, <%= user.username%></h2> 	
-
+		<h1>Welcome Admin Homepage <%= user.username%></h1> 		
 	</div>
-    <a href="/home/adduser">Add user</a> |
-	<a href="/home/view_users">view users</a> |
-	<a href="/logout">Logout</a><br>
-	Username:  <%= user.username %> <br>
+
+	<a href="/home/adduser">Add Moderator</a> |
+	<a href="/home/alluser">View Moderator</a> |
+	<a href="/home/allcontent">View Content</a> |
+	<a href="/logout"> logout</a><br>
+
+
+	Name:<%= user.username %>    <br>
 	Id: <%= user.id %> <br>
-	Password: <%= user.password %> <br>
-	Type: <%= user.type %>
-	<form method = "post">
-		Search: <input type="text" name="search">
-	    <input type="submit" name="" value="Search"><br>
-	</form>
+	Password: <%= user.password %>
 </body>
 </html>

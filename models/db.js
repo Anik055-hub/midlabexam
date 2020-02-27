@@ -1,55 +1,56 @@
-var mysql      = require('mysql');
+var mysql      	= require('mysql');
 
-var getConnection = function( callback ){
+var getConnection = function(callback){
+
 	var connection = mysql.createConnection({
 	  host     : 'localhost',
 	  user     : 'root',
 	  password : '',
-	  database: 'node2'
+	  database : 'node2'
 	});
-
+	
 	connection.connect(function(err) {
 	  if (err) {
 	    console.error('error connecting: ' + err.stack);
 	    callback(null);
 	  }
 	  console.log('connected as id ' + connection.threadId);
-	  callback(connection);
 	});
-};
-
-
+	callback(connection);
+}
 
 module.exports ={
-	getResults: function(sql, params, callback){
+	getResult: function(sql, params, callback){
 		getConnection(function(connection){
-			if(params != null){
-				connection.query(sql, params, function (error, results) {
-					if(results.length != 0){
+
+			if(params == null){
+				connection.query(sql, function(error, results){
+					if(!error){
 						callback(results);
 					}else{
-						callback([]);
+						callback(null);
 					}
 				});
 			}else{
-				connection.query(sql, function (error, results) {
-					if(results.length != 0){
+				connection.query(sql, params, function(error, results){
+					if(!error){
 						callback(results);
 					}else{
-						callback([]);
+						callback(null);
 					}
 				});
 			}
-			connection.end(function(err) {
+
+			connection.end(function(error){
 				console.log('connection end!');
-			});
+			});	
 		});
 	},
-	execute: function(sql, callback){
+	execute: function(sql, params, callback){
 		getConnection(function(connection){
 
-			if(params != null){
-				connection.query(sql, params, function (error, status) {
+			if(params == null){
+				connection.query(sql, function(error, status){
 					if(status){
 						callback(true);
 					}else{
@@ -57,7 +58,7 @@ module.exports ={
 					}
 				});
 			}else{
-				connection.query(sql, function (error, status) {
+				connection.query(sql, params, function(error, status){
 					if(status){
 						callback(true);
 					}else{
@@ -65,11 +66,9 @@ module.exports ={
 					}
 				});
 			}
-			connection.end(function(err) {
+			connection.end(function(error){
 				console.log('connection end!');
-			});
+			});	
 		});
 	}
-
-};
-
+}

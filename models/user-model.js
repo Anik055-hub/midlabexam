@@ -1,66 +1,67 @@
 var db = require('./db');
 
-module.exports= {
-	getById : function(id, callback){
+module.exports ={
+	getById: function(id, callback){
 		var sql = "select * from user where id=?";
-		db.getResults(sql, [id], function(results){
-			if(results.length > 0){
-				callback(results[0]);
+		db.getResult(sql, [id], function(result){
+			if(result.length > 0){
+				callback(result[0]);
 			}else{
 				callback(null);
 			}
 		});
 	},
-	getAll : function(callback){
-		var sql = "select * from user";
-		db.getResults(sql, null, function(results){
-			if(results.length > 0){
-				callback(results);
+	getByUname: function(uname, callback){
+		var sql = "select * from user where username=?";
+		db.getResult(sql, [uname], function(result){
+			if(result.length > 0){
+				callback(result[0]);
 			}else{
-				callback([]);
-			}
-		});
-	},
-	getAlljob : function(callback){
-		var sql = "select * from joblist";
-		db.getResults(sql, null, function(results){
-			if(results.length > 0){
-				callback(results);
-			}else{
-				callback([]);
+				callback(null);
 			}
 		});
 	},
 	validate: function(user, callback){
-		var sql ="SELECT * FROM user where username=? and password=?";
-		db.getResults(sql, [user.username, user.password], function(results){
-			if(results.length > 0){
+		var sql = "select * from user where username=? and password=?";
+		db.getResult(sql, [user.username, user.password], function(result){
+			if(result.length > 0){
 				callback(true);
 			}else{
 				callback(false);
 			}
 		});
 	},
-	getByUname: function(username, callback){
-		var sql = "select * from user where username=?";
-		db.getResults(sql, [username], function(results){
+	getAll:function(callback){
+		var sql = "select * from user";
+		db.getResult(sql, null, function(results){
 			if(results.length > 0){
-				callback(results[0]);
+				callback(results);
 			}else{
 				callback(null);
 			}
 		});
 	},
-	/*getByntype: function(ntype, callback){
-		var sql = "select * from user where username=? and type=?";
-		db.getResults(sql, [ntype.username,ntype.type], function(results){
-			if(results.length > 0){
-				callback(results[0]);
+	getBycId: function(cid, callback){
+		var sql = "select * from content where cid=?";
+		db.getResult(sql, [cid], function(result){
+			if(result.length > 0){
+				callback(result[0]);
 			}else{
 				callback(null);
 			}
 		});
-	},*/
+	},
+	getAllcontent:function(callback){
+		var sql = "select * from content";
+		db.getResult(sql, null, function(results){
+			if(results.length > 0){
+				callback(results);
+			}else{
+				callback(null);
+			}
+		});
+	},
+	
 	insert: function(user, callback){
 		var sql = "insert into user values(?,?,?,?)";
 		db.execute(sql, [null, user.username, user.password, user.type], function(status){
@@ -71,9 +72,9 @@ module.exports= {
 			}
 		});
 	},
-	update : function(user, callback){
-		var sql = "update user set username=?, password=?, type=? where id=?";
-		db.execute(sql, [null, user.username, user.password, user.type, user.id], function(status){
+	insert: function(content, callback){
+		var sql = "insert into user values(?,?,?,?)";
+		db.execute(sql, [null, content.contentname, content.contenttype, content.contentsize], function(status){
 			if(status){
 				callback(true);
 			}else{
@@ -81,9 +82,39 @@ module.exports= {
 			}
 		});
 	},
-	delete: function(user, callback){
+	delete: function(id, callback){
 		var sql = "delete from user where id=?";
-		db.execute(sql, [user.id], function(status){
+		db.execute(sql, [id], function(status){
+			if(status){
+				callback(true);
+			}else{
+				callback(false);
+			}
+		});
+	},
+	deletecontent: function(cid, callback){
+		var sql = "delete from content where cid=?";
+		db.execute(sql, [cid], function(status){
+			if(status){
+				callback(true);
+			}else{
+				callback(false);
+			}
+		});
+	},
+	update: function(user, callback){
+		var sql = "update user set username=?, password=?, type=? where id=?";
+		db.execute(sql, [user.username, user.password, user.type, user.id], function(status){
+			if(status){
+				callback(true);
+			}else{
+				callback(false);
+			}
+		});
+	},
+	updatecontent: function(content, callback){
+		var sql = "update content set contentname=?, contenttype=?, contentsize=? where cid=?";
+		db.execute(sql, [content.contentname, content.contenttype, content.contentsize, content.cid], function(status){
 			if(status){
 				callback(true);
 			}else{
