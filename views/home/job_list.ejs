@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Job List</title>
+</head>
+<body>
+	<div>
+			<h2>Job List</h2> 		
+	</div>
+
+	<a href="/home/employeehome">Back</a>|
+	<a href="/logout">Logout</a><br>
+
+	<table border="1">
+		<tr>
+			<td>JOB CODE</td>
+			<td>COMPANY NAME</td>
+			<td>JOB TITLE</td>
+			<td>JOB LOCATION</td>
+			<td>SALARY</td>
+			<td>ACTION</td>
+		</tr>
+	<% for(var i=0; i < joblist.length; i++){ %>
+		<tr>
+			<td><%= joblist[i].id %></td>
+			<td><%= joblist[i].companyname %></td>
+			<td><%= joblist[i].jobtitle %></td>
+			<td><%= joblist[i].joblocation %></td>
+			<td><%= joblist[i].salary %></td>
+			<td>
+				<a href="/home/edit/<%= joblist[i].id %>">EDIT</a> | 
+				<a href="/edit">DELETE</a> 
+			</td>
+		</tr>
+	<%  } %>
+	</table>
+
+</body>
+</html>
