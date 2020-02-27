@@ -6,6 +6,7 @@ var cookieParser 	= require('cookie-parser');
 var login 			= require('./controllers/login');
 var logout 			= require('./controllers/logout');
 var home 			= require('./controllers/home');
+var signup 			= require('./controllers/signup');
 
 var app = express();
 
@@ -21,6 +22,7 @@ app.use(cookieParser());
 app.use('/login', login);
 app.use('/logout', logout);
 app.use('/home', home);
+app.use('/signup', signup);
 
 
 //routes

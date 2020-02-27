@@ -1,6 +1,7 @@
 var express 	= require('express');
 var router 		= express.Router();
 var userModel   = require.main.require('./models/user-model');
+var contentModel   = require.main.require('./models/content-model');
 
 router.get('*', function(req, res, next){
 	if(req.cookies['username'] == null){
@@ -26,16 +27,6 @@ router.get('/alluser', function(req, res){
 			res.render('home/alluser', {userlist: results});
 		}else{
 			res.send('invalid username/password');
-		}
-	});
-})
-
-router.get('/allcontent', function(req, res){
-	userModel.getAllcontent(function(results){
-		if(results.length > 0){
-			res.render('home/allcontent', {contentlist: results});
-		}else{
-			res.redirect('/home');
 		}
 	});
 })
@@ -88,31 +79,6 @@ router.post('/edit/:id', function(req, res){
 	});
 })
 
-router.get('/editcontent/:cid', function(req, res){
-	
-	userModel.getBycId(req.params.cid, function(result){
-		res.render('home/editcontent', {content: result});
-	});
-})
-
-router.post('/editcontent/:cid', function(req, res){
-	
-	var content = {
-		contentname: req.body.contentname,
-		contenttype: req.body.contenttype,
-		contentsize: req.body.contentsize,
-		cid: req.params.cid
-	};
-
-	userModel.updatecontent(content, function(status){
-		if(status){
-			res.redirect('/home/allcontent');
-		}else{
-			res.redirect('/home/editcontent/'+req.params.cid);
-		}
-	});
-})
-
 router.get('/delete/:id', function(req, res){
 	
 	userModel.getById(req.params.id, function(result){
@@ -131,20 +97,56 @@ router.post('/delete/:id', function(req, res){
 	});
 })
 
-router.get('/deletecontent/:cid', function(req, res){
+router.get('/allcontent', function(req, res){
+	contentModel.getAll(function(results){
+		if(results.length > 0){
+			res.render('home/allcontent', {contentlist: results});
+		}else{
+			res.redirect('/home');
+		}
+	});
+})
+router.get('/editcontent/:id', function(req, res){
 	
-	userModel.getBycId(req.params.cid, function(result){
+	contentModel.getById(req.params.id, function(result){
+		res.render('home/editcontent', {content: result});
+	});
+})
+
+router.post('/editcontent/:id', function(req, res){
+	
+	var content = {
+		contentname: req.body.contentname,
+		contenttype: req.body.contenttype,
+		contentsize: req.body.contentsize,
+		id: req.params.id
+	};
+
+	contentModel.update(content, function(status){
+		if(status){
+			res.redirect('/home/allcontent');
+		}else{
+			res.redirect('/home/editcontent/'+req.params.id);
+		}
+	});
+})
+
+
+
+router.get('/deletecontent/:id', function(req, res){
+	
+	contentModel.getById(req.params.id, function(result){
 		res.render('home/deletecontent', {content: result});
 	});
 })
 
-router.post('/deletecontent/:cid', function(req, res){
+router.post('/deletecontent/:id', function(req, res){
 	
-	userModel.deletecontent(req.params.cid, function(status){
+	contentModel.delete(req.params.id, function(status){
 		if(status){
 			res.redirect('/home/allcontent');
 		}else{
-			res.redirect('/home/deletecontent/'+req.params.cid);
+			res.redirect('/home/deletecontent/'+req.params.id);
 		}
 	});
 })

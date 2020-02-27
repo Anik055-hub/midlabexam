@@ -41,7 +41,7 @@ module.exports ={
 			}
 		});
 	},
-	getBycId: function(cid, callback){
+	/*getBycId: function(cid, callback){
 		var sql = "select * from content where cid=?";
 		db.getResult(sql, [cid], function(result){
 			if(result.length > 0){
@@ -60,21 +60,11 @@ module.exports ={
 				callback(null);
 			}
 		});
-	},
+	},*/
 	
 	insert: function(user, callback){
 		var sql = "insert into user values(?,?,?,?)";
 		db.execute(sql, [null, user.username, user.password, user.type], function(status){
-			if(status){
-				callback(true);
-			}else{
-				callback(false);
-			}
-		});
-	},
-	insert: function(content, callback){
-		var sql = "insert into user values(?,?,?,?)";
-		db.execute(sql, [null, content.contentname, content.contenttype, content.contentsize], function(status){
 			if(status){
 				callback(true);
 			}else{
@@ -92,16 +82,6 @@ module.exports ={
 			}
 		});
 	},
-	deletecontent: function(cid, callback){
-		var sql = "delete from content where cid=?";
-		db.execute(sql, [cid], function(status){
-			if(status){
-				callback(true);
-			}else{
-				callback(false);
-			}
-		});
-	},
 	update: function(user, callback){
 		var sql = "update user set username=?, password=?, type=? where id=?";
 		db.execute(sql, [user.username, user.password, user.type, user.id], function(status){
@@ -112,14 +92,4 @@ module.exports ={
 			}
 		});
 	},
-	updatecontent: function(content, callback){
-		var sql = "update content set contentname=?, contenttype=?, contentsize=? where cid=?";
-		db.execute(sql, [content.contentname, content.contenttype, content.contentsize, content.cid], function(status){
-			if(status){
-				callback(true);
-			}else{
-				callback(false);
-			}
-		});
-	}
 }
